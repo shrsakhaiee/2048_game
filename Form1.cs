@@ -14,9 +14,6 @@ namespace _2048
     {
         Label[,] game_board;
         int n = 4;
-        int r_x, r_y;
-        string r;
-
         public Form1()
         {
             InitializeComponent();
@@ -53,6 +50,7 @@ namespace _2048
                     for (int j = 0; j < n; j++)
                     {
                         if (game_board[i, j].Text != "")
+                        {
                             if (e.KeyData == Keys.Left)
                             {
 
@@ -63,85 +61,90 @@ namespace _2048
                                     game_board[i, j].Text = "";
 
                                 }
-                                else if (j > 0 && game_board[i - 1, j].Text == game_board[i, j].Text)
+                                else if (i > 0 && game_board[i - 1, j].Text == game_board[i, j].Text)
                                 {
                                     game_board[i - 1, j].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
                                     game_board[i, j].Text = "";
                                 }
-                                else if (e.KeyData == Keys.Right)
+                            }
+                            else if (e.KeyData == Keys.Right)
+                            {
+                                if (i < 3 && game_board[i + 1, j].Text == "")
                                 {
-                                    if (i < n - 1 && game_board[i + 1, j].Text == "")
-                                    {
-                                        move = true;
-                                        game_board[i + 1, j].Text = game_board[i, j].Text;
-                                        game_board[i, j].Text = "";
+                                    move = true;
+                                    game_board[i + 1, j].Text = game_board[i, j].Text;
+                                    game_board[i, j].Text = "";
 
-                                    }
-                                    else if (j > n - 1 && game_board[i + 1, j].Text == game_board[i, j].Text)
-                                    {
-                                        game_board[i + 1, j].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
-                                        game_board[i, j].Text = "";
-                                    }
-                                    else if (e.KeyData == Keys.Down)
-                                    {
-                                        if (j < n - 1 && game_board[i, j + 1].Text == "")
-                                        {
-                                            move = true;
-                                            game_board[i, j + 1].Text = game_board[i, j].Text;
-                                            game_board[i, j].Text = "";
-
-                                        }
-                                        else if (j < n - 1 && game_board[i, j + 1].Text == game_board[i, j].Text)
-                                        {
-                                            game_board[i, j + 1].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
-                                            game_board[i, j].Text = "";
-                                        }
-                                        else if (e.KeyData == Keys.Up)
-                                        {
-                                            if (j > 0 && game_board[i, j - 1].Text == "")
-                                            {
-                                                move = true;
-                                                game_board[i, j - 1].Text = game_board[i, j].Text;
-                                                game_board[i, j].Text = "";
-
-                                            }
-                                            else if (j > 0 && game_board[i, j - 1].Text == game_board[i, j].Text)
-                                            {
-                                                game_board[i, j - 1].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
-                                                game_board[i, j].Text = "";
-                                            }
-                                        }
-                                    }
+                                }
+                                else if (i < 3 && game_board[i + 1, j].Text == game_board[i, j].Text)
+                                {
+                                    game_board[i + 1, j].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
+                                    game_board[i, j].Text = "";
                                 }
                             }
-                    }
-                    if (move == true)
-                    {
 
-                        make_Rn();
-                    }
+                            else if (e.KeyData == Keys.Down)
+                            {
+                                if (j < 3 && game_board[i, j + 1].Text == "")
+                                {
+                                    move = true;
+                                    game_board[i, j + 1].Text = game_board[i, j].Text;
+                                    game_board[i, j].Text = "";
+
+                                }
+                                else if (j < 3 - 1 && game_board[i, j + 1].Text == game_board[i, j].Text)
+                                {
+                                    game_board[i, j + 1].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
+                                    game_board[i, j].Text = "";
+                                }
+                            }
+                            else if (e.KeyData == Keys.Up)
+                            {
+                                if (j > 0 && game_board[i, j - 1].Text == "")
+                                {
+                                    move = true;
+                                    game_board[i, j - 1].Text = game_board[i, j].Text;
+                                    game_board[i, j].Text = "";
+
+                                }
+                                else if (j > 0 && game_board[i, j - 1].Text == game_board[i, j].Text)
+                                {
+                                    game_board[i, j - 1].Text = Convert.ToString(Convert.ToInt32(game_board[i, j].Text) * 2);
+                                    game_board[i, j].Text = "";
+                                }
+                            }
+                                    
+                                
+                            
+                        }
+                    }                  
                 }
+            }
+            if (move == true)
+            {
+                make_Rn();
             }
         }
-                    private void make_Rn()
-                    {
-                        var Rand = new Random();
-                        int[] num = { 2, 2, 2, 4 };
-                        bool empty;
+        private void make_Rn()
+        {
+            var Rand = new Random();
+            int[] num = { 2, 2, 2, 4 };
+            int randomindex = Rand.Next(0, num.Length);
+            int r_x, r_y, r1;
+            r1 = num[randomindex];
 
-                        do
-                        {
-                            empty = true;
-                            r_x = Rand.Next(0, n - 1);
-                            r_y = Rand.Next(0, n - 1);
 
-                            if (game_board[r_x, r_y].Text != "")
-                                empty = false;
-                        } while (empty == false);
+            do
+            {
 
-                        r = (num[Rand.Next(0, num.Length)]).ToString();
-                        game_board[r_x, r_y].Text = r;
-                    }
-                }
+                r_x = Rand.Next(0, 3);
+                r_y = Rand.Next(0, 3);
+
+            } while (game_board[r_x, r_y].Text != "");
+            {
+                game_board[r_x, r_y].Text = Convert.ToString(r1);
             }
+        }
+    }
+}
 

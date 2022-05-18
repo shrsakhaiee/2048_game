@@ -49,6 +49,7 @@ namespace _2048
                 {
                     for (int j = 0; j < n; j++)
                     {
+                        string win = "2048";
                         if (game_board[i, j].Text != "")
                         {
                             if (e.KeyData == Keys.Left)
@@ -113,9 +114,10 @@ namespace _2048
                                     game_board[i, j].Text = "";
                                 }
                             }
-                                    
-                                
-                            
+                        }
+                        if(game_board[i,j].Text == win)
+                        {
+                            MessageBox.Show("تو برنده شدی آفرین !!!!");
                         }
                     }                  
                 }
